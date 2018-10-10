@@ -102,8 +102,6 @@ class ActionText::ModelTest < ActiveSupport::TestCase
     end
   end
 
-<<<<<<< HEAD
-=======
   test "with preloaded embeds it doesn't N+1 query" do
     ActiveStorage::Current.host = "http://localhost:3000"
     attachables = [create_file_blob(filename: "racecar.jpg", content_type: "image/jpg"), create_file_blob(filename: "racecar.jpg", content_type: "image/jpg")]
@@ -178,7 +176,5 @@ class ActionText::ModelTest < ActiveSupport::TestCase
       self.class.log << sql unless ignore.match?(sql)
     end
   end
-
->>>>>>> add test for preloading
   ActiveSupport::Notifications.subscribe("sql.active_record", SQLCounter.new)
 end
