@@ -105,8 +105,13 @@ class ActionText::ModelTest < ActiveSupport::TestCase
 <<<<<<< HEAD
 =======
   test "with preloaded embeds it doesn't N+1 query" do
+    ActiveStorage::Current.host = "http://localhost:3000"
     attachables = [create_file_blob(filename: "racecar.jpg", content_type: "image/jpg"), create_file_blob(filename: "racecar.jpg", content_type: "image/jpg")]
-    html = attachables.map{ |attachable| %Q(<action-text-attachment sgid="#{attachable.attachable_sgid}"></action-text-attachment>) }.join
+    html = attachables.map{ |attachable|
+      <<~HTML
+      <action-text-attachment sgid="#{attachable.attachable_sgid}" content-type="image/jpg" previewable="true" presentation="gallery" filename="racecar.jpg" url=#{attachable.service_url} filesize="418099" width="649" height="647" ></action-text-attachment>
+      HTML
+    }.join
     message = Message.create!(subject: "Greetings", content: html)
     message = Message.with_rich_text_content_and_embeds.find(message.id)
     sleep 1 # Wait for background processing
