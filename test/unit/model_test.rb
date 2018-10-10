@@ -112,7 +112,7 @@ class ActionText::ModelTest < ActiveSupport::TestCase
       <action-text-attachment sgid="#{attachable.attachable_sgid}" content-type="image/jpg" previewable="true" presentation="gallery" filename="racecar.jpg" url=#{attachable.service_url} filesize="418099" width="649" height="647" ></action-text-attachment>
       HTML
     }.join
-    message = Message.create!(subject: "Greetings", content: html)
+    message = Message.create!(subject: "Greetings", content: "<div>#{html}</div>")
     message = Message.with_rich_text_content_and_embeds.find(message.id)
     sleep 1 # Wait for background processing
     assert_no_queries do
